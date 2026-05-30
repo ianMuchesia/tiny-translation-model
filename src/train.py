@@ -1,5 +1,6 @@
 
-
+import torch 
+import torch.nn as nn
 
 def train_step(model,src,tgt,src_mask, tgt_mask,optimizer,criterion):
     
@@ -16,10 +17,25 @@ def train_step(model,src,tgt,src_mask, tgt_mask,optimizer,criterion):
     sliced_tgt_mask = tgt_mask[:,:-1,:-1]
     
     #Forward pass, the model only see the decoder input
-    predictions = model(src,decoder_input,src_mask,sliced_tgt_mask)
+    decoder_out,encoder_out = model(src,decoder_input,src_mask,sliced_tgt_mask)
     
     
     #Calculate the error(Loss) between predictions and expected_labels
-    loss = criterion(predictions,expected_labels)
+    loss = criterion(decoder_out,expected_labels)
+    
+    loss.backward()
+    
+    
+    optimizer.step()
+    
+    
+    print(f"The loss is : {loss.item()}")
+    
+    _,predicted = torch.max(decoder_out.data,1)
+    
+    print(f"This is the predicted: {predicted}")
+    
+    
+    
      
     

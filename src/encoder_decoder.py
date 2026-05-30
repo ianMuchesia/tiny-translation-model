@@ -21,4 +21,4 @@ class Seq2SeqTransformer(nn.Module):
         decoder_out , decoder_weights = self.decoder(tgt,encoder_out,tgt_mask)
         
         
-        return decoder_out
+        return decoder_out,encoder_out

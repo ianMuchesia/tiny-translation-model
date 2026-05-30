@@ -1,6 +1,10 @@
 from torch.utils.data import Dataset
 from src.tokenizer import Tokenizer
 
+
+
+## The DataLoader will automatically call __getitem__ 32 times  in training loop
+
 class TranslationDataset(Dataset):
     def __init__(self, filepath, eng_tokenizer, swa_tokenizer):
         self.filepath = filepath

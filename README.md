@@ -1,7 +1,7 @@
-# Tiny Translation Model
+Tiny Translation Model
 ======================
 
-A minimal seq2seq Transformer for English->Swahili translation.
+A compact seq2seq Transformer for English->Swahili translation, built from first principles in PyTorch.
 
 ## Features
 

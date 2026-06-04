@@ -48,7 +48,7 @@ class MultiHeadAttention(nn.Module):
 
         V = V.reshape(V.size(0),V.size(1),self.num_heads,self.head_dims).transpose(1,2)
         
-        # print(f"V shape after head splitting {V.shape}")
+        #print(f"V shape after head splitting {V.shape}")
 
         
         return Q, K, V
@@ -71,15 +71,16 @@ class MultiHeadAttention(nn.Module):
     
         outputs = weights @ V
         
-        print("we did the softmax")
+       
         return outputs,weights
     
     
     def apply_mask(self, scores, mask):
         if mask is not None:
-            print(f"why is mask failing with this shape: {mask.shape}")
-            print("we are breaking here")
-            return scores.masked_fill(mask == 0, -1e9)
+           
+            scores = scores.masked_fill(mask == 0, -1e9)
+            
+            return scores
         return scores
     
     
@@ -90,7 +91,7 @@ class MultiHeadAttention(nn.Module):
         scores = self.compute_scores(q,k)
         
         scores = self.apply_mask(scores,mask)
-        print("did we do mask")
+       
         
         output,weights = self.softmax(scores,v)
         

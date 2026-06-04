@@ -36,6 +36,8 @@ class DecoderBlock(nn.Module):
         
         norm_out1 = self.norm2(out1)
         
+       
+        
         attn_out2 ,w2 = self.cha(norm_out1,encoder_out,encoder_out,None)
         
         

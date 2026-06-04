@@ -22,6 +22,12 @@ class TranslationDataset(Dataset):
                 self.swa_sentences.append(sentence[1].strip())
                 
                 
+        
+        # Build the vocabularies cleanly from the extracted text
+        # We join the entire list into one massive string and feed it to your method
+        self.eng_tokenizer.build_vocab(" ".join(self.eng_sentences))
+        self.swa_tokenizer.build_vocab(" ".join(self.swa_sentences))
+                
     def __len__(self):
         
         return len(self.eng_sentences)

@@ -1,7 +1,7 @@
 Tiny Translation Model
 ======================
 
-A compact seq2seq Transformer for English->Swahili translation, built from first principles in PyTorch.
+A compact seq2seq Transformer for English->Swahili translation in PyTorch.
 
 ## Features
 
@@ -10,13 +10,17 @@ A compact seq2seq Transformer for English->Swahili translation, built from first
 - **Tokenizer and Vocab** (`src/tokenizer.py`): Word-level tokenization with special tokens
 - **Dataset Loader** (`src/dataset.py`): Parses "english => swahili" pairs from `data/toy_translations.txt`
 - **Seq2Seq Wrapper** (`src/encoder_decoder.py`): End-to-end encoder-decoder model
-- **Training Entry Point** (`src/train.py`): Placeholder for the training loop
+- **Training Entry Point** (`src/train.py`): Training script (in progress)
 
 ## Quick Start
 
 ```bash
 python -m src.train
 ```
+
+## Status
+
+- Training loop and evaluation are in progress.
 
 ## Project Structure
 

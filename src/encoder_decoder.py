@@ -6,11 +6,11 @@ from src.decoder import Decoder
 
 
 class Seq2SeqTransformer(nn.Module):
-    def __init__(self,vocab_size,d_model,num_heads,num_layers,max_len):
+    def __init__(self,src_vocab_size,tgt_vocab_size,d_model,num_heads,num_layers,max_len):
         super().__init__()
         
-        self.encoder = Encoder(vocab_size,d_model,num_heads,num_layers,max_len)
-        self.decoder = Decoder(vocab_size,d_model,num_heads,num_layers,max_len)
+        self.encoder = Encoder(src_vocab_size,d_model,num_heads,num_layers,max_len)
+        self.decoder = Decoder(tgt_vocab_size,d_model,num_heads,num_layers,max_len)
         
         
         

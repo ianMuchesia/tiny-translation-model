@@ -11,6 +11,7 @@ A compact seq2seq Transformer for English->Swahili translation in PyTorch.
 - **Dataset Loader** (`src/dataset.py`): Parses "english => swahili" pairs from `data/toy_translations.txt`
 - **Seq2Seq Wrapper** (`src/encoder_decoder.py`): End-to-end encoder-decoder model
 - **Training Entry Point** (`src/train.py`): Training script (in progress)
+- **Training Notebook** (`notebooks/transation_examples.ipynb`): End-to-end setup and training loop
 
 ## Quick Start
 
@@ -20,7 +21,7 @@ python -m src.train
 
 ## Status
 
-- Training loop and evaluation are in progress.
+- Training loop, masking, and accuracy calculations are in progress.
 
 ## Project Structure
 

@@ -43,7 +43,28 @@ These notes capture design intent and the reasoning behind implementation choice
 
 **Chaining** inserts multiple dimensions in sequence: `[32, 7] -> unsqueeze(1) -> [32, 1, 7] -> unsqueeze(2) -> [32, 1, 1, 7]`.
 
+## Training Step Notes
+
+**Masks**:
+- `src_mask = (encoder_input == 0).unsqueeze(1).unsqueeze(2)` handles padding in the encoder.
+- `decoder_padding_mask = (decoder_input == 0).unsqueeze(1).unsqueeze(2)` handles padding in the decoder.
+- `causal_mask = (torch.tril(torch.ones(seq_len, seq_len)) == 0)` prevents future look-ahead.
+- `tgt_mask = decoder_padding_mask | causal_mask` combines padding and causal masking.
+
+**Flattening for Loss**:
+- `decoder_out` is reshaped to `[batch * seq_len, vocab]` before `CrossEntropyLoss`.
+- `expected_labels` is reshaped to `[batch * seq_len]` to match.
+
+**Accuracy With Padding**:
+- Compute correctness against `expected_labels`.
+- Use `valid_tokens_mask = (expected_labels != 0)` so padding does not inflate accuracy.
+- Only count valid tokens in `total`.
+
+**Debugging Shapes**:
+- Print prediction and label shapes when loss or accuracy behaves unexpectedly.
+
 ## Current Status
 
-- Working through masking and tensor shape validation.
+- Training loop is in progress with masking and accuracy accounting for padding.
+- Notebook covers end-to-end training setup and iteration over batches.
 - Next step: verify attention weight shapes across encoder and decoder passes.

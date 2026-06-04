@@ -60,16 +60,29 @@ def train_step(model,batch,optimizer,criterion,device,running_loss,total,correct
     
     print(f"The loss is : {loss.item()}")
     
-    _,predicted = torch.max(decoder_out.data,2)
+    scores,indices = torch.max(decoder_out.data,2)
     
     # print(f"This is the predicted: {predicted}")
     
     
-    total += expected_labels.size(0)
+    total += flat_expected_labels.size(0)
     
-    print(f"the shape of predicted is {predicted.shape}")
-    print(f"the shape of expected_labels is  {expected_labels.shape}")
-    correct += (predicted == expected_labels).sum().item()
+    print(f"the shape of predicted indices is {indices.shape}")
+    print(f"the shape of expected_labels is  {flat_expected_labels.shape}")
+    correct += (indices == expected_labels).sum().item()
+    
+    
+    # 1. Create a mask of the real words (True where ID is NOT 0, False where it IS 0)
+    valid_tokens_mask = (expected_labels != 0)
+    
+    # 2. Check if the prediction is correct AND it is a valid token
+    correct_guesses = (indices == expected_labels) & valid_tokens_mask
+    
+    # 3. Add to our tallies
+    correct += correct_guesses.sum().item()
+    
+    # 4. For the total, we ONLY count the valid tokens, not the padding
+    total += valid_tokens_mask.sum().item()
     
     
     return total,correct,running_loss

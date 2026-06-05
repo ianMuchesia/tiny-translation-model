@@ -63,6 +63,31 @@ These notes capture design intent and the reasoning behind implementation choice
 **Debugging Shapes**:
 - Print prediction and label shapes when loss or accuracy behaves unexpectedly.
 
+## Inference Bug: Premature EOS
+
+**Symptom**: `predict()` returns `[<SOS>, <EOS>]` immediately, even for sentences seen in training.
+
+**Observed Shapes**:
+- `tensor_input`: `[1, 6]`
+- `prediction`: `[1, 1, 448]`
+- `latest_prediction`: `[1, 448]`
+- `next_word_id`: `[1]` then `[1, 1]` after `unsqueeze`
+- `decoder_input` grows to `[1, 2]`, then `<EOS>` is predicted.
+
+**What is NOT wrong**:
+- Autoregressive loop shape logic is correct.
+- `model.eval()` was called before inference.
+- Encoder input already includes `<SOS>` and `<EOS>` tokens.
+
+**Likely Causes**:
+- Token ID mapping mismatch between training and inference (non-deterministic vocab ordering).
+- Tokenizer rebuilt between training and inference with a different word-to-id mapping.
+
+**Checks**:
+- Print `encoded_input` and confirm it matches training-time IDs.
+- Ensure tokenizer vocab is built deterministically and not from an unordered `set()`.
+- Verify the same tokenizer instance used in training is reused for inference.
+
 ## Current Status
 
 - Training loop is in progress with masking and accuracy accounting for padding.

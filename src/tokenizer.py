@@ -30,7 +30,7 @@ class Tokenizer:
     
     def build_vocab(self, corpus: str):
         clean = self.clean_text(corpus)
-        unique_words = set(clean.split())
+        unique_words = (clean.split())
         
         for word in unique_words:
             if word not in self.word2int:

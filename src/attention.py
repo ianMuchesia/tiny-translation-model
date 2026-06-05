@@ -78,7 +78,7 @@ class MultiHeadAttention(nn.Module):
     def apply_mask(self, scores, mask):
         if mask is not None:
            
-            scores = scores.masked_fill(mask == 0, -1e9)
+            scores = scores.masked_fill(mask, -1e9)
             
             return scores
         return scores

@@ -80,16 +80,18 @@ These notes capture design intent and the reasoning behind implementation choice
 - Encoder input already includes `<SOS>` and `<EOS>` tokens.
 
 **Likely Causes**:
-- Token ID mapping mismatch between training and inference (non-deterministic vocab ordering).
-- Tokenizer rebuilt between training and inference with a different word-to-id mapping.
+- Incorrect mask logic during training/inference (using `mask == 0` instead of masking padding tokens).
 
 **Checks**:
-- Print `encoded_input` and confirm it matches training-time IDs.
-- Ensure tokenizer vocab is built deterministically and not from an unordered `set()`.
-- Verify the same tokenizer instance used in training is reused for inference.
+- Verify padding masks are built from `(input == 0)` and that causal masking is applied only to decoder self-attention.
+- Confirm mask shapes align with `[batch, heads, seq_len, seq_len]` expectations.
+
+**Resolution**:
+- Fixed masking to use padding checks (`input == 0`) and correct mask composition for the decoder.
+- Inference now generates full sequences instead of immediate `<EOS>` (e.g., `[<SOS>, 45, 48, <EOS>]`).
 
 ## Current Status
 
-- Training loop is in progress with masking and accuracy accounting for padding.
-- Notebook covers end-to-end training setup and iteration over batches.
+- Training loop uses combined padding + causal masks and reports accuracy on non-padding tokens.
+- Predictions are working with deterministic token IDs.
 - Next step: verify attention weight shapes across encoder and decoder passes.

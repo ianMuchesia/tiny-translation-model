@@ -12,6 +12,7 @@ A compact seq2seq Transformer for English->Swahili translation in PyTorch.
 - **Seq2Seq Wrapper** (`src/encoder_decoder.py`): End-to-end encoder-decoder model
 - **Training Entry Point** (`src/train.py`): Training script (in progress)
 - **Training Notebook** (`notebooks/transation_examples.ipynb`): End-to-end setup and training loop
+- **Attention Debugging**: Heatmaps and shape checks for masking and decoder behavior
 
 ## Quick Start
 
@@ -21,7 +22,7 @@ python -m src.train
 
 ## Status
 
-- Training loop, masking, and accuracy calculations are in progress.
+- Training loop, masking, accuracy calculations, and attention heatmap analysis are in progress.
 
 ## Project Structure
 

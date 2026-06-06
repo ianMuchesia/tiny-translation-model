@@ -95,3 +95,15 @@ These notes capture design intent and the reasoning behind implementation choice
 - Training loop uses combined padding + causal masks and reports accuracy on non-padding tokens.
 - Predictions are working with deterministic token IDs.
 - Next step: verify attention weight shapes across encoder and decoder passes.
+
+## Attention Heatmaps
+
+**Interpretation**: The heatmap suggests the model has memorized the training example rather than learning a broad translation strategy.
+
+**Observed Pattern**: The Swahili `<SOS>` row focuses on the English word "they" when predicting the first real output token.
+
+**Why That Happens**: During autoregressive decoding, the model starts from `<SOS>` and uses the strongest source-word anchor it learned for the memorized sentence.
+
+**Special Tokens**: `<SOS>` and `<EOS>` are structural markers, so they often appear darker or less informative than content words in the heatmap.
+
+**End-of-Sequence Signal**: The model can rely on a strong content token like "home" to decide that the translation is complete, instead of attending to the source `<EOS>` token.

@@ -1,0 +1,10 @@
+input: i want to go home ,prediction: ninataka kwenda nyumbani
+
+input: you will sleep early ,prediction: utalala mapema
+
+input: she read yesterday ,prediction: alisoma jana
+
+input: i ate rice ,prediction: nilikula wali
+
+input: the student is clever ,prediction: mwanafunzi yangu ni mjanja
+

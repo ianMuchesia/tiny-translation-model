@@ -58,7 +58,7 @@ def train_step(model,batch,optimizer,criterion,device,running_loss,total,correct
     running_loss += loss.item()
     
     
-    print(f"The loss is : {loss.item()}")
+    # print(f"The loss is : {loss.item()}")
     
     scores,indices = torch.max(decoder_out.data,2)
     
@@ -67,8 +67,8 @@ def train_step(model,batch,optimizer,criterion,device,running_loss,total,correct
     
     #total += flat_expected_labels.size(0)
     
-    print(f"the shape of predicted indices is {indices.shape}")
-    print(f"the shape of expected_labels is  {flat_expected_labels.shape}")
+    # print(f"the shape of predicted indices is {indices.shape}")
+    # print(f"the shape of expected_labels is  {flat_expected_labels.shape}")
     #correct += (indices == expected_labels).sum().item()
     
     
